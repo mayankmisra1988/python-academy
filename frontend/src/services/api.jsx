@@ -82,12 +82,38 @@
 // export default api;
 
 
+
+
+
+
+
+
 import axios from "axios";
 
-// Base URL ko Environment Variable se connect kiya gaya hai
-const BASE_URL = process.env.REACT_APP_API_URL
-  ? `${process.env.REACT_APP_API_URL}/api`
-  : "https://python-academy-backend.onrender.com/api";
+// Environment detection logic for Local vs Production
+const getBaseUrl = () => {
+  // 1. Check if explicitly defined in .env file
+  if (process.env.REACT_APP_API_URL) {
+    const cleanUrl = process.env.REACT_APP_API_URL.replace(/\/+$/, "");
+    return cleanUrl.endsWith("/api") ? cleanUrl : `${cleanUrl}/api`;
+  }
+
+  // 2. Auto-detect if running on local development machine
+  const isLocalhost = Boolean(
+    window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname.startsWith("192.168.")
+  );
+
+  if (isLocalhost) {
+    return "http://127.0.0.1:8000/api";
+  }
+
+  // 3. Fallback to production backend
+  return "https://python-academy-backend.onrender.com/api";
+};
+
+const BASE_URL = getBaseUrl();
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -138,7 +164,6 @@ api.interceptors.response.use(
       }
 
       try {
-        // Here also dynamic BASE_URL is used instead of hardcoded 127.0.0.1
         const response = await axios.post(
           `${BASE_URL}/auth/token/refresh/`,
           {
@@ -150,8 +175,7 @@ api.interceptors.response.use(
 
         localStorage.setItem("access", newAccessToken);
 
-        originalRequest.headers.Authorization =
-          `Bearer ${newAccessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return api(originalRequest);
       } catch (refreshError) {
