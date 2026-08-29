@@ -19,6 +19,19 @@ ALLOWED_HOSTS=config(
     cast=lambda v: [host.strip() for host in v.split(",")],
 )
 
+# ALLOWED_HOSTS = config(
+#     "ALLOWED_HOSTS",
+#     default="127.0.0.1,localhost,python-academy-backend.onrender.com",
+#     cast=lambda v: [host.strip() for host in v.split(",")],
+# )
+
+
+
+
+
+
+
+
 # ------------------------------------------------------------------------------
 # Applications
 # ------------------------------------------------------------------------------
