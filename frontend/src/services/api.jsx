@@ -1,7 +1,12 @@
 import axios from "axios";
 
+// Base URL ko Environment Variable se connect kiya gaya hai
+const BASE_URL = process.env.REACT_APP_API_URL
+  ? `${process.env.REACT_APP_API_URL}/api`
+  : "https://python-academy-backend.onrender.com/api";
+
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -49,8 +54,9 @@ api.interceptors.response.use(
       }
 
       try {
+        // Here also dynamic BASE_URL is used instead of hardcoded 127.0.0.1
         const response = await axios.post(
-          "http://127.0.0.1:8000/api/auth/token/refresh/",
+          `${BASE_URL}/auth/token/refresh/`,
           {
             refresh: refreshToken,
           }
