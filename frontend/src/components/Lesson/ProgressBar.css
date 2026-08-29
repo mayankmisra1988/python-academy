@@ -1,0 +1,186 @@
+/* =========================================================
+   PROGRESS CARD
+========================================================= */
+
+.progress-card {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf1;
+  border-radius: 14px;
+
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.progress-card h3 {
+  margin: 5px 5px 10px;
+
+  color: #172033;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   PROGRESS TRACK
+========================================================= */
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+
+  overflow: hidden;
+
+  background: #e2e8f0;
+
+  border-radius: 999px;
+}
+
+
+/* =========================================================
+   PROGRESS FILL
+========================================================= */
+
+.progress-fill {
+  height: 100%;
+
+  background: #16a34a;
+
+  border-radius: 999px;
+
+  transition: width 0.4s ease;
+}
+
+
+/* =========================================================
+   PROGRESS DETAILS
+========================================================= */
+
+.progress-details {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 8px;
+
+  color: #64748b;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   COMPLETED BADGE
+========================================================= */
+
+.completed-badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px 9px;
+
+  background: #dcfce7;
+  color: #15803d;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   COMPLETE BUTTON
+========================================================= */
+
+.complete-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 12px;
+
+  padding: 8px 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.complete-btn:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   COMPLETED BUTTON
+========================================================= */
+
+.complete-btn.completed {
+  background: #16a34a;
+
+  color: #ffffff;
+
+  cursor: default;
+
+  transform: none;
+}
+
+
+.complete-btn.completed:hover {
+  background: #16a34a;
+
+  transform: none;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .progress-card {
+    padding: 15px 16px;
+  }
+
+  .progress-details {
+    font-size: 11px;
+  }
+
+  .complete-btn {
+    width: 100%;
+  }
+
+}

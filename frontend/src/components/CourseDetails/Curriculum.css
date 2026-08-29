@@ -1,0 +1,648 @@
+/* =========================================================
+   CURRICULUM
+========================================================= */
+
+.curriculum-section {
+    width: 100%;
+    max-width: 1180px;
+
+    margin: 30px auto 0;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.curriculum-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 16px;
+}
+
+
+.curriculum-label {
+    display: inline-block;
+
+    margin-bottom: 4px;
+
+    color: #2563eb;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+
+.curriculum-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 24px;
+
+    line-height: 1.25;
+}
+
+
+.curriculum-header p {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+
+.curriculum-count {
+    flex-shrink: 0;
+
+    padding: 7px 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 20px;
+
+    color: #1d4ed8;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   CURRICULUM LIST
+========================================================= */
+
+.curriculum-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+/* =========================================================
+   SECTION CARD
+========================================================= */
+
+.curriculum-section-card {
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.section-header {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    border: none;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+
+.section-header:hover {
+    background: #f8fafc;
+}
+
+
+.section-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+}
+
+
+.section-number {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.section-info {
+    min-width: 0;
+}
+
+
+.section-info h3 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.section-info p {
+    margin: 3px 0 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+
+.section-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    flex-shrink: 0;
+}
+
+
+.section-lessons {
+    color: #64748b;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.section-arrow {
+    color: #2563eb;
+
+    font-size: 11px;
+
+    transition: transform 0.2s ease;
+}
+
+
+.section-arrow.open {
+    transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   LESSON LIST
+========================================================= */
+
+.lesson-list {
+    border-top: 1px solid #eef2f7;
+}
+
+
+.lesson-item {
+    min-height: 64px;
+
+    padding: 11px 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    box-sizing: border-box;
+
+    transition: background 0.2s ease;
+}
+
+
+.lesson-item:last-child {
+    border-bottom: none;
+}
+
+
+.lesson-item:hover {
+    background: #fafcff;
+}
+
+
+/* =========================================================
+   LESSON ICON
+========================================================= */
+
+.lesson-icon {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   LESSON INFO
+========================================================= */
+
+.lesson-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.lesson-info h4 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    line-height: 1.4;
+}
+
+
+.lesson-info p {
+    margin: 3px 0 5px;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+.lesson-meta {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    color: #64748b;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.preview-badge {
+    padding: 3px 7px;
+
+    border-radius: 10px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-weight: 600;
+}
+
+
+.completed-badge {
+    padding: 3px 7px;
+
+    border-radius: 10px;
+
+    background: #dcfce7;
+
+    color: #16a34a;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   LESSON ACTION
+========================================================= */
+
+.lesson-action {
+    flex-shrink: 0;
+
+    min-width: 82px;
+
+    padding: 8px 11px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.lesson-action:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+.lesson-action.locked-button {
+    background: #e5e7eb;
+
+    color: #64748b;
+
+    cursor: not-allowed;
+}
+
+
+.lesson-action.locked-button:hover {
+    transform: none;
+
+    background: #e5e7eb;
+}
+
+
+.lesson-action.completed-button {
+    background: #16a34a;
+}
+
+
+.lesson-action.completed-button:hover {
+    background: #15803d;
+}
+
+
+/* =========================================================
+   COMPLETED LESSON
+========================================================= */
+
+.lesson-item.completed {
+    background: #f8fffa;
+}
+
+
+.lesson-item.completed .lesson-icon {
+    background: #dcfce7;
+
+    color: #16a34a;
+}
+
+
+/* =========================================================
+   LOCKED LESSON
+========================================================= */
+
+.lesson-item.locked {
+    background: #fafafa;
+}
+
+
+.lesson-item.locked .lesson-icon {
+    background: #f1f5f9;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   NO LESSONS
+========================================================= */
+
+.no-lessons {
+    padding: 22px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   EMPTY CURRICULUM
+========================================================= */
+
+.curriculum-empty {
+    padding: 40px 20px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+}
+
+
+.empty-icon {
+    margin-bottom: 8px;
+
+    font-size: 32px;
+}
+
+
+.curriculum-empty h3 {
+    margin: 0 0 6px;
+
+    color: #1e293b;
+
+    font-size: 17px;
+}
+
+
+.curriculum-empty p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.curriculum-summary {
+    margin-top: 12px;
+
+    padding: 11px 15px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 20px;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .curriculum-section {
+        margin-top: 25px;
+    }
+
+
+    .curriculum-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+
+    .section-header {
+        padding: 12px;
+    }
+
+
+    .section-right {
+        gap: 7px;
+    }
+
+
+    .section-lessons {
+        display: none;
+    }
+
+
+    .lesson-item {
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+
+    .lesson-info {
+        width: calc(100% - 45px);
+    }
+
+
+    .lesson-action {
+        width: 100%;
+
+        margin-left: 42px;
+    }
+
+
+    .curriculum-summary {
+        justify-content: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 450px) {
+
+    .curriculum-header h2 {
+        font-size: 21px;
+    }
+
+
+    .curriculum-header p {
+        font-size: 12px;
+    }
+
+
+    .section-info h3 {
+        font-size: 13px;
+    }
+
+
+    .lesson-info h4 {
+        font-size: 12px;
+    }
+
+}

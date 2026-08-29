@@ -1,0 +1,33 @@
+/* =========================================================
+   LESSON RESOURCES
+========================================================= */
+
+.lesson-resources {
+  margin-top: 18px;
+  padding: 18px 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf1;
+  border-radius: 14px;
+
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+.lesson-resources h3 {
+  margin: 0 0 6px;
+
+  color: #172033;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.lesson-resources p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+  line-height: 1.5;
+}

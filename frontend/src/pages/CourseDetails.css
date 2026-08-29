@@ -1,0 +1,113 @@
+.course-hero{
+
+display:flex;
+
+gap:40px;
+
+padding:40px;
+
+background:white;
+
+border-radius:20px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+margin:40px;
+}
+
+.hero-image img{
+
+width:420px;
+
+border-radius:15px;
+}
+
+.hero-content{
+
+flex:1;
+}
+
+.course-badges{
+
+display:flex;
+
+gap:15px;
+
+margin:20px 0;
+}
+
+.course-badges span{
+
+background:#3776ab;
+
+color:white;
+
+padding:8px 18px;
+
+border-radius:30px;
+
+font-size:14px;
+}
+
+.course-description{
+
+line-height:1.8;
+
+margin-top:20px;
+}
+
+.section-card{
+
+margin:40px;
+
+padding:25px;
+
+background:white;
+
+border-radius:15px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.lesson-card{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:20px;
+
+border-bottom:1px solid #ddd;
+}
+
+.lesson-actions{
+
+display:flex;
+
+gap:10px;
+}
+
+.lesson-actions button{
+
+padding:10px 20px;
+
+background:#3776ab;
+
+color:white;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+}
+
+.lesson-actions a{
+    text-decoration:none;
+    background:#28a745;
+    color:white;
+    padding:10px 20px;
+    border-radius:8px;
+}

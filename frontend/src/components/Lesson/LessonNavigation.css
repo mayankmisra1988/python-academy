@@ -1,0 +1,94 @@
+/* =========================================================
+   LESSON NAVIGATION
+========================================================= */
+
+.lesson-navigation {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   NAV BUTTON
+========================================================= */
+
+.lesson-navigation .nav-btn,
+.lesson-navigation button {
+    min-width: 100px;
+
+    padding: 8px 14px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.lesson-navigation .nav-btn:hover,
+.lesson-navigation button:hover:not(:disabled) {
+
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DISABLED
+========================================================= */
+
+.lesson-navigation button:disabled {
+
+    background: #cbd5e1;
+
+    color: #94a3b8;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 500px) {
+
+    .lesson-navigation {
+        flex-direction: column;
+    }
+
+    .lesson-navigation .nav-btn,
+    .lesson-navigation button {
+        width: 100%;
+    }
+
+}

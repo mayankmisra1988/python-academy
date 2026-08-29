@@ -1,0 +1,147 @@
+/* Auth.css
+    Styles for the authentication forms (login, register, etc.)
+*/
+/* Custom variables for Python Academy theme */
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --text-dark: #0f172a;
+  --text-light: #64748b;
+  --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  --card-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --radius: 10px;
+}
+
+/* Center the card perfectly on the screen */
+body {
+  margin: 0;
+  background: var(--bg-gradient);
+  min-height: 80vh;
+}
+
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  padding: 20px;
+  max-height: 50vh;
+  margin: 5vh 0;
+}
+
+.auth-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 
+              0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+}
+
+.auth-card h2 {
+  text-align: center;
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.auth-card p {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Row wrapper for First Name & Last Name */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.auth-card input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--text-dark);
+  background-color: #f8fafc;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+.auth-card button {
+  height: 48px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--primary-color);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 5px;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.auth-card button:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px -2px rgba(37, 99, 235, 0.3);
+}
+
+.auth-card button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.bottom-link {
+  text-align: center;
+  margin-top: 25px;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.bottom-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+  transition: color 0.2s;
+}
+
+.bottom-link a:hover {
+  text-decoration: underline;
+  color: var(--primary-hover);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 30px 20px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}

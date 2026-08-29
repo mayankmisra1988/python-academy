@@ -1,0 +1,232 @@
+/* ===================================
+   SIDEBAR
+=================================== */
+
+.sidebar {
+    width: 260px;
+    min-width: 260px;
+    height: 100vh;
+
+    background: #1e293b;
+    color: #fff;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* ===================================
+   TOP
+=================================== */
+
+.sidebar-top{
+    display:flex;
+    flex-direction:column;
+}
+
+/* ===================================
+   LOGO
+=================================== */
+
+.logo{
+    padding:25px 20px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    text-align:center;
+}
+
+.logo-link{
+    text-decoration:none;
+}
+
+.logo h2{
+    margin:0;
+    color:#3b82f6;
+    font-size:32px;
+    font-weight:700;
+
+    transition:.25s ease;
+}
+
+.logo-link:hover h2{
+    color:#60a5fa;
+}
+
+/* ===================================
+   NAVIGATION
+=================================== */
+
+.sidebar nav{
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+}
+
+.nav-item{
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    width:100%;
+    box-sizing:border-box;
+
+    padding:15px 24px;
+
+    color:#cbd5e1;
+    text-decoration:none;
+
+    font-size:16px;
+    font-weight:500;
+
+    overflow:hidden;
+
+    transition:
+        background-color .25s ease,
+        color .25s ease,
+        padding-left .25s ease;
+}
+
+/* Left Active Indicator */
+
+.nav-item::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:4px;
+    height:100%;
+
+    background:#60a5fa;
+
+    transform:scaleY(0);
+
+    transition:.25s ease;
+
+}
+
+/* Hover */
+
+.nav-item:hover{
+
+    background:#334155;
+    color:#fff;
+
+    padding-left:30px;
+
+}
+
+/* Active */
+
+.nav-item.active{
+
+    background:#2563eb;
+    color:#fff;
+
+    font-weight:700;
+
+}
+
+.nav-item.active::before{
+
+    transform:scaleY(1);
+
+}
+
+/* ===================================
+   BOTTOM
+=================================== */
+
+.sidebar-bottom{
+
+    padding:20px;
+
+}
+
+/* ===================================
+   LOGOUT BUTTON
+=================================== */
+
+.logout-btn{
+
+    width:100%;
+
+    height:46px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#dc2626;
+    color:#fff;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:
+        background-color .25s ease,
+        transform .2s ease,
+        box-shadow .25s ease;
+
+}
+
+.logout-btn:hover{
+
+    background:#b91c1c;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 12px 20px rgba(0,0,0,.25);
+
+}
+
+.logout-btn:active{
+
+    transform:translateY(0);
+
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media(max-width:768px){
+
+    .sidebar{
+
+        width:220px;
+        min-width:220px;
+
+    }
+
+    .logo h2{
+
+        font-size:26px;
+
+    }
+
+    .nav-item{
+
+        padding:14px 20px;
+        font-size:15px;
+
+    }
+
+    .nav-item:hover{
+
+        padding-left:26px;
+
+    }
+
+}

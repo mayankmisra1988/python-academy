@@ -1,0 +1,398 @@
+/* =========================================================
+   COURSE DETAILS PAGE
+========================================================= */
+
+.course-details-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 28px 32px 60px;
+    box-sizing: border-box;
+    background: #f4f7fb;
+}
+
+
+/* =========================================================
+   COURSE HERO
+========================================================= */
+
+.course-hero {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+
+    background: #ffffff;
+    border-radius: 18px;
+
+    padding: 24px;
+
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 28px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.07);
+}
+
+
+/* =========================================================
+   HERO IMAGE
+========================================================= */
+
+.hero-image {
+    width: 100%;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 300px;
+
+    display: block;
+
+    object-fit: cover;
+
+    border-radius: 14px;
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.hero-content {
+    padding: 2px 4px;
+}
+
+.course-level {
+    display: inline-flex;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    background: #eef2ff;
+    color: #2563eb;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+    margin-bottom: 10px;
+}
+
+.hero-content h1 {
+    margin: 0 0 8px;
+
+    color: #111827;
+
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 750;
+}
+
+.short-description {
+    margin: 0 0 18px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   COURSE BADGES
+========================================================= */
+
+.course-badges {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+
+    margin-bottom: 18px;
+}
+
+.course-badges span {
+    min-height: 38px;
+
+    padding: 8px 11px;
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 9px;
+
+    color: #334155;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.course-description {
+    margin: 4px 0 18px;
+
+    color: #475569;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.course-progress {
+    margin-top: 12px;
+}
+
+.course-progress h4 {
+    margin: 0 0 7px;
+
+    color: #111827;
+
+    font-size: 14px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+
+    background: #e5e7eb;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #4f46e5
+        );
+
+    border-radius: 20px;
+
+    transition: width 0.4s ease;
+}
+
+
+/* =========================================================
+   COURSE ACTION
+========================================================= */
+
+.course-actions {
+    margin-top: 20px;
+}
+
+.course-actions a {
+    text-decoration: none;
+}
+
+.enroll-btn,
+.continue-btn {
+    border: none;
+
+    padding: 11px 21px;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.enroll-btn:hover,
+.continue-btn:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 15px rgba(37, 99, 235, 0.2);
+}
+
+.enroll-btn:disabled {
+    opacity: 0.7;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   CURRICULUM CONTAINER
+========================================================= */
+
+.course-curriculum {
+    width: 100%;
+    max-width: 1180px;
+
+    margin: 28px auto 0;
+}
+
+
+/* =========================================================
+   CURRICULUM HEADER
+========================================================= */
+
+.curriculum-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 16px;
+}
+
+.curriculum-label {
+    display: inline-block;
+
+    color: #2563eb;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 4px;
+
+    text-transform: uppercase;
+}
+
+.curriculum-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 24px;
+}
+
+.curriculum-header p {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+}
+
+.curriculum-count {
+    padding: 7px 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 20px;
+
+    color: #1d4ed8;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .course-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-image img {
+        height: 280px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .course-details-page {
+        padding: 20px 15px 40px;
+    }
+
+    .course-hero {
+        padding: 18px;
+
+        border-radius: 14px;
+
+        gap: 20px;
+    }
+
+    .hero-image img {
+        height: 230px;
+    }
+
+    .hero-content h1 {
+        font-size: 27px;
+    }
+
+    .course-badges {
+        grid-template-columns: 1fr;
+    }
+
+    .curriculum-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .hero-content h1 {
+        font-size: 24px;
+    }
+
+    .short-description {
+        font-size: 13px;
+    }
+
+    .hero-image img {
+        height: 200px;
+    }
+
+    .enroll-btn,
+    .continue-btn {
+        width: 100%;
+    }
+}

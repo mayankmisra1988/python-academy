@@ -1,0 +1,855 @@
+/* =========================================================
+   DASHBOARD - COMPLETE CSS
+   Designed to look compact and balanced at 100% browser zoom
+========================================================= */
+
+
+/* =========================================================
+   PAGE ENTRY ANIMATION
+========================================================= */
+
+.page-fade-in {
+    opacity: 1;
+    animation: dashboardFadeIn 0.25s ease;
+}
+
+@keyframes dashboardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.content {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+
+    padding: 24px 30px 40px;
+
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   DASHBOARD HEADER
+========================================================= */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard-eyebrow {
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+
+    color: #2563eb;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+
+    font-size: 27px;
+    line-height: 1.2;
+
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.dashboard-header p {
+    margin: 5px 0 0;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 30px;
+}
+
+.dashboard-stat-card {
+    display: flex;
+    align-items: center;
+
+    min-height: 88px;
+
+    padding: 16px 18px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+
+    box-shadow:
+        0 3px 10px rgba(15, 23, 42, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dashboard-stat-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 18px rgba(15, 23, 42, 0.09);
+}
+
+
+/* =========================================================
+   STAT ICON
+========================================================= */
+
+.stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    margin-right: 12px;
+
+    flex-shrink: 0;
+
+    background: #eff6ff;
+
+    border-radius: 9px;
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   STAT TEXT
+========================================================= */
+
+.dashboard-stat-card h2 {
+    margin: 0;
+
+    font-size: 27px;
+    line-height: 1;
+
+    color: #2563eb;
+
+    font-weight: 700;
+}
+
+.dashboard-stat-card p {
+    margin: 5px 0 0;
+
+    font-size: 11px;
+
+    color: #64748b;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.dashboard-section {
+    margin-top: 0;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 14px;
+}
+
+.section-title {
+    margin: 0;
+
+    font-size: 21px;
+    line-height: 1.25;
+
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.section-heading p {
+    margin: 5px 0 0;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+.view-all-link {
+    margin-bottom: 2px;
+
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.view-all-link:hover {
+    color: #1d4ed8;
+}
+
+
+/* =========================================================
+   CONTINUE LEARNING GRID
+========================================================= */
+
+.dashboard-courses-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+
+/* =========================================================
+   COURSE CARD
+========================================================= */
+
+.dashboard-course-card {
+    display: flex;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+
+    box-shadow:
+        0 3px 10px rgba(15, 23, 42, 0.05);
+
+    text-decoration: none;
+    color: inherit;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dashboard-course-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 9px 20px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   COURSE IMAGE
+========================================================= */
+
+.course-image-wrapper {
+    width: 150px;
+    min-width: 150px;
+    height: 125px;
+
+    overflow: hidden;
+
+    background: #e2e8f0;
+}
+
+.course-image-wrapper img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.3s ease;
+}
+
+.dashboard-course-card:hover
+.course-image-wrapper img {
+    transform: scale(1.04);
+}
+
+.course-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    font-size: 34px;
+
+    background: #eff6ff;
+}
+
+
+/* =========================================================
+   COURSE CARD CONTENT
+========================================================= */
+
+.course-card-content {
+    flex: 1;
+    min-width: 0;
+
+    padding: 14px 16px;
+
+    box-sizing: border-box;
+}
+
+.course-label {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+    color: #2563eb;
+}
+
+.course-card-content h3 {
+    margin: 0 0 10px;
+
+    font-size: 15px;
+    line-height: 1.25;
+
+    color: #1e293b;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PROGRESS INFO
+========================================================= */
+
+.course-progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 6px;
+
+    font-size: 10px;
+
+    color: #64748b;
+}
+
+.course-progress-info strong {
+    color: #2563eb;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+
+    margin-bottom: 11px;
+
+    overflow: hidden;
+
+    background: #e2e8f0;
+
+    border-radius: 20px;
+}
+
+.progress-fill {
+    height: 100%;
+
+    background: #2563eb;
+
+    border-radius: 20px;
+
+    transition: width 0.4s ease;
+}
+
+
+/* Completed progress */
+
+.progress-fill[style*="100%"] {
+    background: #16a34a;
+}
+
+
+/* =========================================================
+   CONTINUE BUTTON
+========================================================= */
+
+.continue-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+
+    padding: 8px 12px;
+
+    box-sizing: border-box;
+
+    background: #2563eb;
+
+    border-radius: 7px;
+
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dashboard-course-card:hover .continue-btn {
+    background: #1d4ed8;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.dashboard-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 60vh;
+
+    padding: 30px;
+
+    text-align: center;
+}
+
+.dashboard-empty-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.dashboard-empty h2 {
+    margin: 0 0 7px;
+
+    font-size: 22px;
+
+    color: #1e293b;
+}
+
+.dashboard-empty p {
+    margin: 0;
+
+    font-size: 13px;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   EMPTY COURSE CARD
+========================================================= */
+
+.dashboard-empty-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 35px 20px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+}
+
+.empty-icon {
+    margin-bottom: 8px;
+
+    font-size: 32px;
+}
+
+.dashboard-empty-card h3 {
+    margin: 0 0 5px;
+
+    font-size: 16px;
+
+    color: #1e293b;
+}
+
+.dashboard-empty-card p {
+    margin: 0 0 15px;
+
+    font-size: 12px;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   BROWSE COURSES BUTTON
+========================================================= */
+
+.browse-courses-btn {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 9px 16px;
+
+    background: #2563eb;
+
+    border-radius: 7px;
+
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: background 0.2s ease;
+}
+
+.browse-courses-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions-section {
+    margin-top: 28px;
+}
+
+.quick-actions-section .section-title {
+    margin-bottom: 13px;
+}
+
+.quick-actions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+
+/* =========================================================
+   QUICK ACTION CARD
+========================================================= */
+
+.quick-action-card {
+    display: flex;
+    align-items: center;
+
+    min-width: 0;
+
+    padding: 13px 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 3px 9px rgba(15, 23, 42, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.quick-action-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 16px rgba(15, 23, 42, 0.08);
+}
+
+
+/* =========================================================
+   QUICK ACTION ICON
+========================================================= */
+
+.quick-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    margin-right: 10px;
+
+    flex-shrink: 0;
+
+    background: #eff6ff;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   QUICK ACTION TEXT
+========================================================= */
+
+.quick-action-card div {
+    flex: 1;
+    min-width: 0;
+}
+
+.quick-action-card h3 {
+    margin: 0 0 3px;
+
+    font-size: 11px;
+
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.quick-action-card p {
+    margin: 0;
+
+    font-size: 9px;
+
+    color: #64748b;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   QUICK ACTION ARROW
+========================================================= */
+
+.quick-action-arrow {
+    margin-left: 8px;
+
+    color: #2563eb;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading-text {
+    padding: 30px;
+
+    font-size: 16px;
+
+    color: #334155;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .content {
+        padding: 22px 24px 35px;
+    }
+
+    .stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .quick-actions {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .content {
+        padding: 18px 16px 30px;
+    }
+
+    .dashboard-header {
+        margin-bottom: 20px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 23px;
+    }
+
+    .dashboard-header p {
+        font-size: 12px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 10px;
+
+        margin-bottom: 25px;
+    }
+
+    .dashboard-stat-card {
+        min-height: 78px;
+
+        padding: 12px;
+    }
+
+    .stat-icon {
+        width: 30px;
+        height: 30px;
+
+        margin-right: 8px;
+
+        font-size: 15px;
+    }
+
+    .dashboard-stat-card h2 {
+        font-size: 22px;
+    }
+
+    .dashboard-stat-card p {
+        font-size: 9px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+    .dashboard-courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-course-card {
+        width: 100%;
+    }
+
+    .course-image-wrapper {
+        width: 130px;
+        min-width: 130px;
+        height: 115px;
+    }
+
+    .course-card-content {
+        padding: 12px;
+    }
+
+    .course-card-content h3 {
+        font-size: 14px;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .content {
+        padding: 15px 12px 25px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-stat-card {
+        min-height: 70px;
+    }
+
+    .dashboard-course-card {
+        flex-direction: column;
+    }
+
+    .course-image-wrapper {
+        width: 100%;
+        height: 170px;
+    }
+
+    .course-card-content {
+        width: 100%;
+    }
+
+}
