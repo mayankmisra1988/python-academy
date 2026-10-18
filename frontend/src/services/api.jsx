@@ -124,13 +124,12 @@
 
 
 
-
 import axios from "axios";
 
 const getBaseUrl = () => {
-  // Get env variable and remove any accidental brackets like [url]
+  // Get env variable and remove any accidental brackets like [url] using replaceAll
   const rawEnvUrl = process.env.REACT_APP_API_URL?.trim();
-  const envUrl = rawEnvUrl ? rawEnvUrl.replace(/[\[\]]/g, "").trim() : "";
+  const envUrl = rawEnvUrl ? rawEnvUrl.replaceAll("[", "").replaceAll("]", "").trim() : "";
 
   if (envUrl) {
     let url = envUrl.replace(/\/+$/, "");
