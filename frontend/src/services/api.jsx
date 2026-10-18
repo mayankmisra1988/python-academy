@@ -1,119 +1,33 @@
-// import axios from "axios";
-
-// const api = axios.create({
-//   baseURL: "http://127.0.0.1:8000/api",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
-
-// // Add access token to every request
-// api.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("access");
-
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-// // Refresh access token when it expires
-// api.interceptors.response.use(
-//   (response) => response,
-
-//   async (error) => {
-//     const originalRequest = error.config;
-
-//     if (
-//       error.response?.status === 401 &&
-//       !originalRequest._retry
-//     ) {
-//       originalRequest._retry = true;
-
-//       const refreshToken = localStorage.getItem("refresh");
-
-//       if (!refreshToken) {
-//         localStorage.removeItem("access");
-//         localStorage.removeItem("refresh");
-//         localStorage.removeItem("user");
-
-//         window.location.href = "/login";
-
-//         return Promise.reject(error);
-//       }
-
-//       try {
-//         const response = await axios.post(
-//           "http://127.0.0.1:8000/api/auth/token/refresh/",
-//           {
-//             refresh: refreshToken,
-//           }
-//         );
-
-//         const newAccessToken = response.data.access;
-
-//         localStorage.setItem("access", newAccessToken);
-
-//         originalRequest.headers.Authorization =
-//           `Bearer ${newAccessToken}`;
-
-//         return api(originalRequest);
-//       } catch (refreshError) {
-//         localStorage.removeItem("access");
-//         localStorage.removeItem("refresh");
-//         localStorage.removeItem("user");
-
-//         window.location.href = "/login";
-
-//         return Promise.reject(refreshError);
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
-
-// export default api;
-
-
-
-
-
-
-
-
 import axios from "axios";
 
-// Environment detection logic for Local vs Production
 const getBaseUrl = () => {
-  // 1. Check if explicitly defined in .env file
-  if (process.env.REACT_APP_API_URL) {
-    const cleanUrl = process.env.REACT_APP_API_URL.replace(/\/+$/, "");
-    return cleanUrl.endsWith("/api") ? cleanUrl : `${cleanUrl}/api`;
+  const envUrl = process.env.REACT_APP_API_URL?.trim();
+
+  if (envUrl) {
+    let url = envUrl.replace(/\/+$/, "");
+
+    if (!/^https?:\/\//i.test(url)) {
+      url = `https://${url}`;
+    }
+
+    return url.endsWith("/api") ? url : `${url}/api`;
   }
 
-  // 2. Auto-detect if running on local development machine
-  const isLocalhost = Boolean(
-    window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1" ||
-      window.location.hostname.startsWith("192.168.")
-  );
+  const hostname = window.location.hostname;
 
-  if (isLocalhost) {
-    return "http://127.0.0.1:8000/api";
-  }
+  const isLocalhost =
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname.startsWith("192.168.");
 
-  // 3. Fallback to production backend
-  return "https://python-academy-backend.onrender.com/api";
+  return isLocalhost
+    ? "http://127.0.0.1:8000/api"
+    : "https://python-academy-backend.onrender.com/api";
 };
 
 const BASE_URL = getBaseUrl();
+
+console.log("API BASE URL:", BASE_URL);
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -122,7 +36,7 @@ const api = axios.create({
   },
 });
 
-// Add access token to every request
+// Attach access token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access");
@@ -133,63 +47,69 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Refresh access token when it expires
+// Refresh expired access token
 api.interceptors.response.use(
   (response) => response,
-
   async (error) => {
     const originalRequest = error.config;
 
     if (
-      error.response?.status === 401 &&
-      !originalRequest._retry
+      error.response?.status !== 401 ||
+      !originalRequest ||
+      originalRequest._retry ||
+      originalRequest.url?.includes("/auth/token/refresh/")
     ) {
-      originalRequest._retry = true;
-
-      const refreshToken = localStorage.getItem("refresh");
-
-      if (!refreshToken) {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-        localStorage.removeItem("user");
-
-        window.location.href = "/login";
-
-        return Promise.reject(error);
-      }
-
-      try {
-        const response = await axios.post(
-          `${BASE_URL}/auth/token/refresh/`,
-          {
-            refresh: refreshToken,
-          }
-        );
-
-        const newAccessToken = response.data.access;
-
-        localStorage.setItem("access", newAccessToken);
-
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-        return api(originalRequest);
-      } catch (refreshError) {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-        localStorage.removeItem("user");
-
-        window.location.href = "/login";
-
-        return Promise.reject(refreshError);
-      }
+      return Promise.reject(error);
     }
 
-    return Promise.reject(error);
+    originalRequest._retry = true;
+
+    const refreshToken = localStorage.getItem("refresh");
+
+    if (!refreshToken) {
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      localStorage.removeItem("user");
+
+      window.location.href = "/login";
+
+      return Promise.reject(error);
+    }
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/auth/token/refresh/`,
+        { refresh: refreshToken },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const newAccessToken = response.data.access;
+
+      localStorage.setItem("access", newAccessToken);
+
+      originalRequest.headers =
+        originalRequest.headers || {};
+
+      originalRequest.headers.Authorization =
+        `Bearer ${newAccessToken}`;
+
+      return api(originalRequest);
+    } catch (refreshError) {
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+      localStorage.removeItem("user");
+
+      window.location.href = "/login";
+
+      return Promise.reject(refreshError);
+    }
   }
 );
 
