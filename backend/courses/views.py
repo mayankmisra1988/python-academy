@@ -1,3 +1,21 @@
+import secrets
+
+from django.conf import settings
+from django.db import connection
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+
+
+
+
+
+
+
+
 from rest_framework import generics, permissions
 
 from .models import Course
@@ -31,3 +49,33 @@ class CourseDetailView(generics.RetrieveAPIView):
         "category",
         "instructor",
     )
+
+
+class CourseDiagnosticView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        expected_token = settings.COURSE_DIAGNOSTIC_TOKEN
+        supplied_token = request.headers.get("X-Diagnostic-Token", "")
+
+        if (
+            not expected_token
+            or not secrets.compare_digest(
+                supplied_token,
+                expected_token,
+            )
+        ):
+            return Response(
+                {"detail": "Not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        return Response({
+            "database_engine": connection.vendor,
+            # "database_name": connection.settings_dict.get("NAME"),
+            "total_courses": Course.objects.count(),
+            "published_courses": Course.objects.filter(
+                is_published=True
+            ).count(),
+        })
