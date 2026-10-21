@@ -96,3 +96,6 @@ htmlcov/
 backend/media/
 media/
 backend/sqlite_data.json
+
+# Local backup files
+*.bak

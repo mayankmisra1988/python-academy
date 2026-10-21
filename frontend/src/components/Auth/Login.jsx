@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import "./Auth.css";
@@ -7,6 +7,7 @@ import { loginUser } from "../../services/authService";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -30,41 +31,39 @@ export default function Login() {
 
       await loginUser(formData);
 
-      // Success Toast
-      toast.success("Login Successful! ðŸŽ‰");
+      toast.success("Login successful!");
 
-      // Dashboard par redirect
-      navigate("/dashboard");
+      const redirectTo = location.state?.from;
 
+      if (
+        typeof redirectTo === "string" &&
+        redirectTo.startsWith("/") &&
+        !redirectTo.startsWith("//")
+      ) {
+        navigate(redirectTo, { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true });
+      }
     } catch (error) {
       console.error("Login Error:", error);
 
-      if (error.response?.data) {
-        const data = error.response.data;
+      const data = error.response?.data;
 
-        // Backend ka detail message
-        if (data.detail) {
-          toast.error(data.detail);
-        }
+      if (data?.detail) {
+        toast.error(data.detail);
+      } else if (data && typeof data === "object") {
+        const firstError = Object.values(data)[0];
 
-        // Validation errors
-        else if (typeof data === "object") {
-          const firstError = Object.values(data)[0];
-
-          if (Array.isArray(firstError)) {
-            toast.error(firstError[0]);
-          } else {
-            toast.error(String(firstError));
-          }
-        }
-
-        else {
+        if (Array.isArray(firstError)) {
+          toast.error(String(firstError[0]));
+        } else if (firstError) {
+          toast.error(String(firstError));
+        } else {
           toast.error("Invalid email or password.");
         }
       } else {
-        toast.error("Invalid email or password.");
+        toast.error("Login failed. Please check your connection and credentials.");
       }
-
     } finally {
       setLoading(false);
     }
@@ -72,17 +71,12 @@ export default function Login() {
 
   return (
     <div className="auth-container">
-
       <div className="auth-card">
-
         <h2>Welcome Back</h2>
 
-        <p>
-          Login to continue your learning journey.
-        </p>
+        <p>Login to continue your learning journey.</p>
 
         <form onSubmit={handleSubmit}>
-
           <input
             type="email"
             name="email"
@@ -101,34 +95,21 @@ export default function Login() {
             required
           />
 
-          <button
-            type="submit"
-            disabled={loading}
-          >
-            {loading
-              ? "Logging in..."
-              : "Login"}
+          <button type="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
-
         </form>
 
         <div className="bottom-link">
-
-          Don't have an account?{" "}
-
-          <Link to="/register">
-            Register
-          </Link>
+          Don't have an account? <Link to="/register">Register</Link>
 
           <div style={{ marginTop: "8px" }}>
             <Link to="/forgot-password" style={{ fontSize: "13px" }}>
               Forgot Password?
             </Link>
           </div>
-
         </div>
       </div>
-
     </div>
   );
 }
