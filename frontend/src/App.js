@@ -31,6 +31,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
+        <Route path="/courses" element={<Courses />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
@@ -54,18 +55,29 @@ function App() {
         >
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-courses" element={<MyCourses />} />
-          <Route path="/courses/:slug" element={<CourseDetails />} />
+
+          <Route
+            path="/courses/:slug"
+            element={<CourseDetails />}
+          />
 
           <Route
             path="/courses/:slug/lesson/:lessonId"
             element={<Lesson />}
           />
 
-          <Route path="/lesson/:lessonId/quiz" element={<Quiz />} />
-          <Route path="/certificates" element={<Certificates />} />
+          <Route
+            path="/lesson/:lessonId/quiz"
+            element={<Quiz />}
+          />
+
+          <Route
+            path="/certificates"
+            element={<Certificates />}
+          />
+
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/courses" element={<Courses />} />
         </Route>
       </Routes>
     </BrowserRouter>
