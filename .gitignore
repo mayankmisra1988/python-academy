@@ -60,8 +60,8 @@ MANIFEST
 db.sqlite3
 
 # Django Media uploaded files (agar local storage test kar rahe hain)
-backend/media/
-media/
+#backend/media/
+#media/
 
 # ==========================================
 # Environment Variables & Secrets (CRITICAL)
@@ -92,3 +92,7 @@ Thumbs.db
 htmlcov/
 .pytest_cache/
 .mypy_cache/
+# Local database and uploaded media
+backend/media/
+media/
+backend/sqlite_data.json

@@ -3,6 +3,7 @@ from django.db import models
 
 from courses.models import Course
 from django.utils import timezone
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 
 class Certificate(models.Model):
 
@@ -25,6 +26,7 @@ class Certificate(models.Model):
 
     pdf = models.FileField(
         upload_to="certificates/",
+        storage=RawMediaCloudinaryStorage(),
         blank=True,
         null=True,
     )

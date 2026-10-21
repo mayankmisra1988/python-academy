@@ -1,7 +1,3 @@
-/* Auth.css
-    Styles for the authentication forms (login, register, etc.)
-*/
-/* Custom variables for Python Academy theme */
 :root {
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
@@ -13,7 +9,6 @@
   --radius: 10px;
 }
 
-/* Center the card perfectly on the screen */
 body {
   margin: 0;
   background: var(--bg-gradient);
@@ -63,7 +58,6 @@ body {
   gap: 18px;
 }
 
-/* Row wrapper for First Name & Last Name */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -135,7 +129,6 @@ body {
   color: var(--primary-hover);
 }
 
-/* Responsive adjustments */
 @media (max-width: 480px) {
   .auth-card {
     padding: 30px 20px;
@@ -144,4 +137,31 @@ body {
     grid-template-columns: 1fr;
     gap: 18px;
   }
+}
+
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-card {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Button Click Ripple / Active Effect */
+.auth-card button:active {
+  transform: scale(0.98);
+}
+
+/* Input Focus Smooth Transition */
+.auth-card input {
+  transition: all 0.3s ease-in-out;
 }

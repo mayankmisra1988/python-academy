@@ -61,6 +61,7 @@ INSTALLED_APPS=[
     "dashboard",
     "chatbot",
     "core",
+    "cloudinary_storage",
 ]
 
 # ------------------------------------------------------------------------------
@@ -127,17 +128,6 @@ else:
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
 # ------------------------------------------------------------------------------
 # Password Validation
 # ------------------------------------------------------------------------------
@@ -169,8 +159,31 @@ STATICFILES_DIRS=[
 ]
 
 STATIC_ROOT=BASE_DIR/"staticfiles"
-MEDIA_URL="/media/"
-MEDIA_ROOT=BASE_DIR/"media"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# Cloudinary configuration
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME", default=""),
+    "API_KEY": config("CLOUDINARY_API_KEY", default=""),
+    "API_SECRET": config("CLOUDINARY_API_SECRET", default=""),
+    "PREFIX": "",
+}
+CLOUDINARY_URL = (
+    f"cloudinary://{config('CLOUDINARY_API_KEY', default='')}:"
+    f"{config('CLOUDINARY_API_SECRET', default='')}@"
+    f"{config('CLOUDINARY_CLOUD_NAME', default='')}"
+)
+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 # ------------------------------------------------------------------------------
 # Default Primary Key
@@ -196,15 +209,18 @@ CORS_ALLOWED_ORIGINS=[
 # ------------------------------------------------------------------------------
 # REST Framework
 # ------------------------------------------------------------------------------
-
-REST_FRAMEWORK={
-    "DEFAULT_AUTHENTICATION_CLASSES":(
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES":(
+    "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
-    "DEFAULT_SCHEMA_CLASS":"drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "10/hour",
+        "user": "1000/hour",
+    },
 }
 
 # ------------------------------------------------------------------------------

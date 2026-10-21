@@ -31,7 +31,7 @@ export default function Login() {
       await loginUser(formData);
 
       // Success Toast
-      toast.success("Login Successful! 🎉");
+      toast.success("Login Successful! ðŸŽ‰");
 
       // Dashboard par redirect
       navigate("/dashboard");
@@ -120,8 +120,13 @@ export default function Login() {
             Register
           </Link>
 
-        </div>
+          <div style={{ marginTop: "8px" }}>
+            <Link to="/forgot-password" style={{ fontSize: "13px" }}>
+              Forgot Password?
+            </Link>
+          </div>
 
+        </div>
       </div>
 
     </div>

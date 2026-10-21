@@ -8,6 +8,8 @@ import CourseDetails from "./components/CourseDetails/CourseDetails";
 
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import ForgotPassword from "./components/Auth/ForgotPassword";
+import ResetPassword from "./components/Auth/ResetPassword";
 
 import Lesson from "./components/Lesson/Lesson";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -18,29 +20,31 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Courses from "./components/Courses/Courses";
 
-
 function App() {
   return (
     <BrowserRouter>
-
-      {/* Toast Messages */}
       <Toaster
         position="top-right"
-        toastOptions={{
-          duration: 3000,
-        }}
+        toastOptions={{ duration: 3000 }}
       />
 
       <Routes>
-
         {/* Public Routes */}
-
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected Dashboard */}
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
 
+        <Route
+          path="/reset-password/:uid/:token"
+          element={<ResetPassword />}
+        />
+
+        {/* Protected Routes */}
         <Route
           element={
             <ProtectedRoute>
@@ -49,54 +53,21 @@ function App() {
           }
         >
           <Route path="/dashboard" element={<Dashboard />} />
-
-          <Route
-            path="/my-courses"
-            element={<MyCourses />}
-          />
-
-          <Route
-            path="/courses/:slug"
-            element={<CourseDetails />}
-          />
+          <Route path="/my-courses" element={<MyCourses />} />
+          <Route path="/courses/:slug" element={<CourseDetails />} />
 
           <Route
             path="/courses/:slug/lesson/:lessonId"
             element={<Lesson />}
           />
 
-          <Route
-            path="/lesson/:lessonId/quiz"
-            element={<Quiz />}
-          />
-
-          <Route
-            path="/certificates"
-            element={<Certificates />}
-          />
-
-          <Route
-            path="/profile"
-            element={<Profile />}
-          />
-
-          <Route
-            path="/settings"
-            element={<Settings />}
-          />
-
-          <Route
-            path="/courses"
-            element={<Courses />}
-          />
-          <Route
-            path="/lesson/:lessonId/quiz"
-            element={<Quiz />}
-          />
+          <Route path="/lesson/:lessonId/quiz" element={<Quiz />} />
+          <Route path="/certificates" element={<Certificates />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/courses" element={<Courses />} />
         </Route>
-
       </Routes>
-
     </BrowserRouter>
   );
 }
