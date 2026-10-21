@@ -1,19 +1,22 @@
+import json
 import logging
+import urllib.error
+import urllib.request
+
 from django.conf import settings
-from django.core.mail import send_mail
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 from rest_framework import generics, permissions, status
+from rest_framework.exceptions import ValidationError as DRFValidationError
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.throttling import AnonRateThrottle
+from rest_framework.views import APIView
 
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from django.core.exceptions import ValidationError as DjangoValidationError
 
 from .models import User
 from .serializers import (
@@ -44,7 +47,6 @@ class LoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         user = serializer.validated_data["user"]
-
         refresh = RefreshToken.for_user(user)
 
         return Response(
@@ -90,6 +92,7 @@ class ChangePasswordView(APIView):
                 {"error": "Old password is incorrect."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
         try:
             validate_password(
                 serializer.validated_data["new_password"],
@@ -99,6 +102,7 @@ class ChangePasswordView(APIView):
             raise DRFValidationError(
                 {"new_password": list(exc.messages)}
             ) from exc
+
         user.set_password(
             serializer.validated_data["new_password"]
         )
@@ -149,20 +153,59 @@ class ForgotPasswordView(APIView):
             )
 
             try:
-                send_mail(
-                    subject="Reset your Python Academy password",
-                    message=(
-                        "We received a request to reset your password.\n\n"
-                        f"Open this link to reset it:\n{reset_link}\n\n"
-                        "If you did not request this, ignore this email."
-                    ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    recipient_list=[user.email],
-                    fail_silently=False,
+                api_key = settings.RESEND_API_KEY
+
+                if not api_key:
+                    logger.error(
+                        "Password reset email failed: "
+                        "RESEND_API_KEY is not configured."
+                    )
+                else:
+                    email_data = {
+                        "from": settings.RESEND_FROM_EMAIL,
+                        "to": [user.email],
+                        "subject": (
+                            "Reset your Python Academy password"
+                        ),
+                        "text": (
+                            "We received a request to reset your password.\n\n"
+                            f"Open this link to reset it:\n{reset_link}\n\n"
+                            "If you did not request this, ignore this email."
+                        ),
+                    }
+
+                    api_request = urllib.request.Request(
+                        "https://api.resend.com/emails",
+                        data=json.dumps(email_data).encode("utf-8"),
+                        headers={
+                            "Authorization": f"Bearer {api_key}",
+                            "Content-Type": "application/json",
+                        },
+                        method="POST",
+                    )
+
+                    with urllib.request.urlopen(
+                        api_request,
+                        timeout=10,
+                    ) as api_response:
+                        if api_response.status in (200, 201, 202):
+                            logger.info(
+                                "Password reset email accepted by Resend."
+                            )
+                        else:
+                            logger.error(
+                                "Resend API returned HTTP %s.",
+                                api_response.status,
+                            )
+
+            except urllib.error.HTTPError as exc:
+                logger.error(
+                    "Resend API rejected password reset email: HTTP %s",
+                    exc.code,
                 )
             except Exception:
                 logger.exception(
-                    "Password reset email could not be sent."
+                    "Password reset email could not be sent through Resend."
                 )
 
         return Response(
