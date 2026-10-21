@@ -180,6 +180,7 @@ class ForgotPasswordView(APIView):
                         headers={
                             "Authorization": f"Bearer {api_key}",
                             "Content-Type": "application/json",
+                            "User-Agent": "PythonAcademy/1.0",
                         },
                         method="POST",
                     )
