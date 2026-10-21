@@ -199,9 +199,15 @@ class ForgotPasswordView(APIView):
                             )
 
             except urllib.error.HTTPError as exc:
+                error_body = exc.read().decode(
+                    "utf-8",
+                    errors="replace",
+                )
                 logger.error(
-                    "Resend API rejected password reset email: HTTP %s",
+                    "Resend API rejected password reset email: "
+                    "HTTP %s; response: %s",
                     exc.code,
+                    error_body[:1000],
                 )
             except Exception:
                 logger.exception(
