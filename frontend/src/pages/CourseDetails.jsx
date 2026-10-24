@@ -1,67 +1,90 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {getCourseDetails,getCurriculum,} from "../services/courseService";
+import {
+getCourseDetails,
+getCurriculum,
+} from "../services/courseService";
 import CourseHero from "../components/CourseDetails/CourseHero";
 import Curriculum from "../components/CourseDetails/Curriculum";
 import "./CourseDetails.css";
 
 export default function CourseDetails() {
+const { slug } = useParams();
 
-  const { slug } = useParams();
+const [course, setCourse] = useState(null);
+const [curriculum, setCurriculum] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
 
-  const [course, setCourse] = useState(null);
-  const [curriculum, setCurriculum] = useState([]);
+useEffect(() => {
+let cancelled = false;
 
-  const [loading, setLoading] = useState(true);
+async function loadCourse() {
+  setLoading(true);
+  setError("");
+  setCourse(null);
+  setCurriculum([]);
 
-  useEffect(() => {
+  try {
+    const courseData = await getCourseDetails(slug);
 
-    loadCourse();
-
-  }, [slug]);
-
-  async function loadCourse() {
-
-    try {
-
-      const courseData =
-        await getCourseDetails(slug);
-
-      setCourse(courseData);
-
-      const curriculumData =
-        await getCurriculum(courseData.id);
-
-      setCurriculum(curriculumData);
-
-    } catch (error) {
-
-      console.log(error);
-
-    } finally {
-
-      setLoading(false);
-
+    if (!courseData) {
+      throw new Error(
+        "Course load nahi ho paya. Please refresh karke dobara try karein."
+      );
     }
 
+    const curriculumData = await getCurriculum(courseData.id);
+
+    if (cancelled) return;
+
+    setCourse(courseData);
+    setCurriculum(curriculumData);
+  } catch (err) {
+    if (!cancelled) {
+      console.error("Course details loading error:", err);
+      setError(
+        err.message || "Course load karte waqt error aaya."
+      );
+    }
+  } finally {
+    if (!cancelled) {
+      setLoading(false);
+    }
   }
+}
 
-  if (loading)
-    return <h2>Loading...</h2>;
+loadCourse();
 
-  return (
+return () => {
+  cancelled = true;
+};
 
-    <div>
+}, [slug]);
 
-      <CourseHero
-        course={course}
-      />
+if (loading) {
+return <h2>Loading course...</h2>;
+}
 
-    <Curriculum
-      curriculum={curriculum}
-      slug={slug}
-    />
-    </div>
+if (error || !course) {
+return (
+<div className="course-load-error">
+<h2>Course load nahi ho paya</h2>
+<p>{error || "Course nahi mila."}</p>
+</div>
+);
+}
 
-  );
+return (
+<div>
+<CourseHero course={course} />
+
+  <Curriculum
+    curriculum={curriculum}
+    slug={slug}
+    course={course}
+  />
+</div>
+
+);
 }

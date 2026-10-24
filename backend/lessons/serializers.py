@@ -175,10 +175,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
 class SectionSerializer(serializers.ModelSerializer):
 
-    lessons = LessonSerializer(
-        many=True,
-        read_only=True,
-    )
+    lessons = serializers.SerializerMethodField()
 
     class Meta:
         model = Section
@@ -190,6 +187,18 @@ class SectionSerializer(serializers.ModelSerializer):
             "order",
             "lessons",
         )
+
+    def get_lessons(self, obj):
+        published_lessons = obj.lessons.filter(
+            is_published=True
+        ).order_by("order")
+
+        return LessonSerializer(
+            published_lessons,
+            many=True,
+            context=self.context,
+        ).data
+
 
 
 # ==========================================================

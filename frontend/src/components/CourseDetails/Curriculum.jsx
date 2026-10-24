@@ -45,6 +45,7 @@ export default function Curriculum({
     */
 
     if (
+      !course?.is_free &&
       !course?.enrolled &&
       !lesson.is_preview
     ) {
@@ -232,6 +233,7 @@ export default function Curriculum({
                         (lesson, lessonIndex) => {
 
                           const locked =
+                            !course?.is_free &&
                             !course?.enrolled &&
                             !lesson.is_preview;
 

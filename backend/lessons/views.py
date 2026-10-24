@@ -51,26 +51,51 @@ class CourseCurriculumView(generics.ListAPIView):
 
 class LessonDetailView(generics.RetrieveAPIView):
     """
-    Returns details of a single published lesson.
+    Returns published lessons only when access is permitted.
+    Preview lessons and free-course lessons are public.
+    Paid-course lessons require an active enrollment,
+    unless the lesson is marked as preview.
     """
-
-    queryset = (
-        Lesson.objects.filter(
-            is_published=True
-        )
-        .select_related(
-            "section",
-            "section__course",
-        )
-    )
 
     serializer_class = LessonSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return Lesson.objects.filter(
+            is_published=True
+        ).select_related(
+            "section",
+            "section__course",
+        )
+
+    def get_object(self):
+        from django.http import Http404
+
+        lesson = super().get_object()
+        course = lesson.section.course
+
+        if lesson.is_preview or course.is_free:
+            return lesson
+
+        if not self.request.user.is_authenticated:
+            raise Http404
+
+        has_enrollment = Enrollment.objects.filter(
+            user=self.request.user,
+            course=course,
+            is_active=True,
+        ).exists()
+
+        if not has_enrollment:
+            raise Http404
+
+        return lesson
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context["request"] = self.request
         return context
+
 
 
 def update_course_completion(user, course):
