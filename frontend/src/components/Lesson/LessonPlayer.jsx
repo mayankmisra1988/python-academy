@@ -228,8 +228,8 @@ function LessonPlayer({ lesson, progress = 0, onProgress, onComplete }) {
           <div className="notes-icon">📄</div>
           <div className="notes-content">
             <h3>Lesson Notes</h3>
-            {lesson.notes ? (
-              <a href={lesson.notes} target="_blank" rel="noreferrer" className="download-notes-btn">
+            {(lesson.notes_url || lesson.notes) ? (
+              <a href={lesson.notes_url || lesson.notes} target="_blank" rel="noreferrer" className="download-notes-btn">
                 📄 Download Notes
               </a>
             ) : <p>No notes available for this lesson.</p>}

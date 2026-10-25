@@ -1,613 +1,464 @@
-/* =====================================================
-   CERTIFICATES PAGE
-===================================================== */
+/* =========================================
+   PYTHON ACADEMY — MY CERTIFICATES
+========================================= */
 
-.content {
-    width: 100%;
-    max-width: 1100px;
-
-    margin: 0 auto;
-
-    padding: 28px 30px 40px;
-
-    box-sizing: border-box;
+.certificates-page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 28px 48px;
+  box-sizing: border-box;
+  color: #172033;
 }
 
-
-/* =====================================================
-   HEADER
-===================================================== */
+/* Header */
 
 .certificates-header {
-    margin-bottom: 24px;
+  position: relative;
+  margin-bottom: 30px;
+  padding: 30px;
+  overflow: hidden;
+  background: linear-gradient(120deg, #eff6ff 0%, #f8faff 55%, #eef2ff 100%);
+  border: 1px solid #dbe7ff;
+  border-radius: 22px;
 }
-
-
-/* PYTHON ACADEMY */
 
 .certificates-eyebrow {
-    display: inline-block;
-
-    margin-bottom: 5px;
-
-    color: #2563eb;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: 1px;
-
-    text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #3159c9;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
-
-
-/* MAIN TITLE */
 
 .certificates-header h1 {
-    margin: 0 0 6px;
-
-    color: #111827;
-
-    font-size: 28px;
-    font-weight: 700;
-
-    line-height: 1.25;
+  margin: 0 0 10px;
+  color: #172554;
+  font-size: clamp(27px, 4vw, 36px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
 }
-
-
-/* DESCRIPTION */
 
 .certificates-header p {
-    margin: 0;
-
-    color: #6b7280;
-
-    font-size: 14px;
-
-    line-height: 1.5;
+  max-width: 540px;
+  margin: 0;
+  color: #5b6680;
+  font-size: 15px;
+  line-height: 1.7;
 }
-
-
-/* =====================================================
-   CERTIFICATE COUNT
-===================================================== */
 
 .certificate-count {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 13px;
-
-    padding: 7px 14px;
-
-    background: #eff6ff;
-
-    border: 1px solid #bfdbfe;
-
-    border-radius: 20px;
-
-    color: #2563eb;
-
-    font-size: 13px;
-    font-weight: 600;
-
-    line-height: 1;
-
-    white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 20px;
+  padding: 9px 15px;
+  background: #ffffff;
+  border: 1px solid #d5e2ff;
+  border-radius: 999px;
+  color: #3159c9;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(49, 89, 201, 0.06);
 }
 
-
-/* =====================================================
-   CERTIFICATE GRID
-===================================================== */
+/* Certificate grid */
 
 .certificate-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 24px;
-
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 24px;
+  width: 100%;
 }
 
-
-/* =====================================================
-   CERTIFICATE CARD
-===================================================== */
+/* Certificate card */
 
 .certificate-card {
-    position: relative;
-
-    display: flex;
-
-    flex-direction: column;
-
-    width: 100%;
-
-    background: #ffffff;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 14px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 6px 20px rgba(15, 23, 42, 0.07);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e3e8f1;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px rgba(24, 39, 75, 0.05);
+  transition: transform 0.22s ease, box-shadow 0.22s ease,
+    border-color 0.22s ease;
 }
-
-
-/* CARD HOVER */
 
 .certificate-card:hover {
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 12px 28px rgba(15, 23, 42, 0.11);
+  transform: translateY(-4px);
+  border-color: #c9d7ff;
+  box-shadow: 0 14px 34px rgba(24, 39, 75, 0.11);
 }
 
+/* Certificate preview */
 
-/* =====================================================
-   CERTIFICATE THUMBNAIL
-===================================================== */
-
-.certificate-thumbnail {
-    display: block;
-
-    width: 100%;
-
-    height: 145px;
-
-    object-fit: cover;
-
-    background: #f3f4f6;
+.certificate-image-wrapper {
+  position: relative;
+  padding: 18px;
+  background: linear-gradient(145deg, #f1f5ff, #f8fafc);
+  border-bottom: 1px solid #e8edf6;
 }
 
-
-/* =====================================================
-   THUMBNAIL PLACEHOLDER
-===================================================== */
+.certificate-thumbnail,
+.certificate-thumbnail-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.65 / 1;
+  box-sizing: border-box;
+  object-fit: contain;
+  background: #ffffff;
+  border: 1px solid #e0e6f0;
+  border-radius: 10px;
+  margin-top:10px;
+}
 
 .certificate-thumbnail-placeholder {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-
-    height: 145px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #eff6ff,
-            #f8fafc
-        );
-
-    font-size: 45px;
+  color: #3159c9;
+  font-size: 54px;
+  background: linear-gradient(135deg, #ffffff, #edf3ff);
 }
 
+.certificate-earned-badge {
+  position: absolute;
+  top: 27px;
+  right: 27px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 11px;
+  background: #ecfdf3;
+  border: 1px solid #bbf7d0;
+  border-radius: 999px;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.06);
+}
 
-/* =====================================================
-   COURSE TITLE
-===================================================== */
+/* Card content */
+
+.certificate-card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 22px;
+}
+
+.certificate-label {
+  margin-bottom: 9px;
+  color: #6476b9;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
 
 .certificate-card h2 {
-    margin: 0;
-
-    padding: 15px 18px 8px;
-
-    color: #111827;
-
-    font-size: 19px;
-
-    font-weight: 700;
-
-    line-height: 1.3;
+  margin: 0 0 20px;
+  padding: 0;
+  color: #18233b;
+  font-size: 21px;
+  font-weight: 750;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
+/* Certificate details */
 
-/* =====================================================
-   CERTIFICATE INFORMATION
-===================================================== */
+.certificate-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
 
 .certificate-info {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 3px;
-
-    margin: 0;
-
-    padding: 6px 18px;
-
-    color: #6b7280;
-
-    font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 7px;
+  margin: 0;
+  padding: 13px;
+  background: #f8fafc;
+  border: 1px solid #edf0f5;
+  border-radius: 11px;
 }
-
-
-/* LABEL */
 
 .certificate-info span {
-    color: #6b7280;
-
-    font-size: 12px;
-
-    font-weight: 500;
+  color: #778198;
+  font-size: 11px;
+  font-weight: 600;
 }
-
-
-/* VALUE */
 
 .certificate-info strong {
-    color: #111827;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    word-break: break-word;
+  color: #26334b;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
-
-/* =====================================================
-   ACTION BUTTONS
-===================================================== */
+/* Actions */
 
 .certificate-actions {
-    display: flex;
-
-    gap: 10px;
-
-    margin-top: auto;
-
-    padding: 15px 18px 18px;
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding: 0;
 }
-
-
-/* BUTTON + LINK */
 
 .certificate-actions button,
 .certificate-actions a {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex: 1;
-
-    min-height: 40px;
-
-    padding: 9px 12px;
-
-    border: 1px solid #2563eb;
-
-    border-radius: 8px;
-
-    background: #2563eb;
-
-    color: #ffffff;
-
-    font-family: inherit;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    line-height: 1;
-
-    text-align: center;
-
-    text-decoration: none;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 44px;
+  padding: 11px 14px;
+  border: 1px solid #3159c9;
+  border-radius: 10px;
+  background: #3159c9;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-
-/* VIEW BUTTON */
-
-.certificate-actions a {
-    background: #eff6ff;
-
-    border-color: #bfdbfe;
-
-    color: #2563eb;
-}
-
-
-/* HOVER */
 
 .certificate-actions button:hover:not(:disabled) {
-    background: #1d4ed8;
-
-    border-color: #1d4ed8;
-
-    transform: translateY(-1px);
+  transform: translateY(-1px);
+  background: #2547a8;
+  border-color: #2547a8;
+  box-shadow: 0 5px 12px rgba(49, 89, 201, 0.18);
 }
 
+.certificate-actions a {
+  background: #ffffff;
+  border-color: #d5def4;
+  color: #3159c9;
+}
 
 .certificate-actions a:hover {
-    background: #dbeafe;
-
-    border-color: #93c5fd;
-
-    color: #1d4ed8;
-
-    transform: translateY(-1px);
+  transform: translateY(-1px);
+  background: #f0f5ff;
+  border-color: #b8c9f8;
 }
 
-
-/* DISABLED */
-
-.certificate-actions button:disabled {
-    opacity: 0.6;
-
-    cursor: not-allowed;
-
-    transform: none;
+.certificate-actions button:focus-visible,
+.certificate-actions a:focus-visible {
+  outline: 3px solid #93b4ff;
+  outline-offset: 3px;
 }
 
+.certificate-actions button:disabled,
+.certificate-actions .view-btn.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
 
-/* =====================================================
-   EMPTY STATE
-===================================================== */
+/* Empty state */
 
 .certificate-empty {
-    width: 100%;
-
-    padding: 50px 25px;
-
-    background: #ffffff;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 14px;
-
-    text-align: center;
-
-    box-shadow:
-        0 6px 20px rgba(15, 23, 42, 0.05);
-
-    box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 58px 24px;
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 20px;
+  text-align: center;
 }
-
-
-/* EMPTY ICON */
 
 .certificate-empty-icon {
-    margin-bottom: 12px;
-
-    font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 18px;
+  background: #eff4ff;
+  border-radius: 22px;
+  color: #3159c9;
+  font-size: 42px;
 }
-
-
-/* EMPTY TITLE */
 
 .certificate-empty h2 {
-    margin: 0 0 8px;
-
-    color: #111827;
-
-    font-size: 21px;
-
-    font-weight: 700;
+  margin: 0 0 10px;
+  color: #18233b;
+  font-size: 23px;
+  font-weight: 800;
 }
-
-
-/* EMPTY DESCRIPTION */
 
 .certificate-empty p {
-    max-width: 500px;
-
-    margin: 0 auto;
-
-    color: #6b7280;
-
-    font-size: 14px;
-
-    line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto;
+  color: #718096;
+  font-size: 14px;
+  line-height: 1.8;
 }
 
-
-/* =====================================================
-   ERROR MESSAGE
-===================================================== */
+/* Error state */
 
 .certificate-error {
-    margin-bottom: 20px;
-
-    padding: 12px 16px;
-
-    background: #fef2f2;
-
-    border: 1px solid #fecaca;
-
-    border-radius: 8px;
-
-    color: #b91c1c;
-
-    font-size: 13px;
-
-    line-height: 1.5;
+  margin-bottom: 22px;
+  padding: 14px 16px;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  color: #be123c;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-
-/* =====================================================
-   PAGE ANIMATION
-===================================================== */
+/* Page animation */
 
 .page-fade-in {
-    opacity: 1;
-
-    animation:
-        certificateFadeIn
-        0.25s ease;
+  animation: certificateFadeIn 0.3s ease both;
 }
-
 
 @keyframes certificateFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(8px);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0);
-    }
-
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-
-/* =====================================================
-   TABLET
-===================================================== */
+/* Tablet */
 
 @media (max-width: 900px) {
+  .certificates-page {
+    padding: 26px 20px 38px;
+  }
 
-    .content {
-        padding: 24px 22px 35px;
-    }
+  .certificate-grid {
+    gap: 18px;
+  }
 
-    .certificate-grid {
-        gap: 20px;
-    }
+  .certificate-card-content {
+    padding: 18px;
+  }
 
-    .certificate-thumbnail,
-    .certificate-thumbnail-placeholder {
-        height: 135px;
-    }
+  .certificate-image-wrapper {
+    padding: 14px;
+  }
 
+  .certificate-earned-badge {
+    top: 22px;
+    right: 22px;
+  }
 }
 
+/* Mobile */
 
-/* =====================================================
-   MOBILE
-===================================================== */
+@media (max-width: 680px) {
+  .certificates-page {
+    padding: 20px 15px 30px;
+  }
 
-@media (max-width: 700px) {
+  .certificates-header {
+    margin-bottom: 22px;
+    padding: 23px 20px;
+    border-radius: 17px;
+  }
 
-    .content {
-        padding: 20px 16px 30px;
-    }
+  .certificates-header h1 {
+    font-size: 27px;
+  }
 
+  .certificates-header p {
+    font-size: 14px;
+  }
 
-    .certificates-header {
-        margin-bottom: 20px;
-    }
+  .certificate-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
 
+  .certificate-card-content {
+    padding: 20px;
+  }
 
-    .certificates-header h1 {
-        font-size: 24px;
-    }
+  .certificate-card h2 {
+    font-size: 20px;
+  }
 
-
-    .certificates-header p {
-        font-size: 13px;
-    }
-
-
-    .certificate-count {
-        margin-top: 11px;
-
-        padding: 7px 12px;
-
-        font-size: 12px;
-    }
-
-
-    .certificate-grid {
-        grid-template-columns: 1fr;
-
-        gap: 18px;
-    }
-
-
-    .certificate-thumbnail,
-    .certificate-thumbnail-placeholder {
-        height: 150px;
-    }
-
-
-    .certificate-card h2 {
-        font-size: 18px;
-
-        padding: 14px 16px 7px;
-    }
-
-
-    .certificate-info {
-        padding: 6px 16px;
-    }
-
-
-    .certificate-actions {
-        padding: 14px 16px 16px;
-    }
-
+  .certificate-details {
+    gap: 10px;
+  }
 }
 
+/* Small mobile */
 
-/* =====================================================
-   SMALL MOBILE
-===================================================== */
+@media (max-width: 380px) {
+  .certificates-page {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
 
-@media (max-width: 480px) {
+  .certificates-header {
+    padding: 20px 15px;
+  }
 
-    .content {
-        padding: 16px 12px 25px;
-    }
+  .certificate-card-content {
+    padding: 16px;
+  }
 
+  .certificate-image-wrapper {
+    padding: 10px;
+  }
 
-    .certificates-header h1 {
-        font-size: 22px;
-    }
+  .certificate-earned-badge {
+    top: 17px;
+    right: 17px;
+    padding: 6px 8px;
+  }
 
+  .certificate-details {
+    grid-template-columns: minmax(0, 1fr);
+  }
 
-    .certificates-header p {
-        font-size: 12px;
-    }
+  .certificate-actions {
+    flex-direction: column;
+  }
 
+  .certificate-actions button,
+  .certificate-actions a {
+    width: 100%;
+  }
+}
 
-    .certificate-thumbnail,
-    .certificate-thumbnail-placeholder {
-        height: 140px;
-    }
+/* Respect reduced-motion preferences */
 
+@media (prefers-reduced-motion: reduce) {
+  .certificates-page,
+  .certificate-card,
+  .certificate-actions button,
+  .certificate-actions a {
+    animation: none;
+    transition: none;
+  }
 
-    .certificate-actions {
-        flex-direction: column;
-
-        gap: 8px;
-    }
-
-
-    .certificate-actions button,
-    .certificate-actions a {
-        width: 100%;
-
-        min-height: 40px;
-    }
-
+  .certificate-card:hover,
+  .certificate-actions button:hover,
+  .certificate-actions a:hover {
+    transform: none;
+  }
 }
