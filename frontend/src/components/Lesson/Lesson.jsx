@@ -17,7 +17,7 @@ import LessonResources from "./LessonResources";
 import "./Lesson.css";
 
 function Lesson() {
-  const { lessonId } = useParams();
+  const { slug, lessonId } = useParams();
 
   const [lesson, setLesson] = useState(null);
   const [curriculum, setCurriculum] = useState([]);
@@ -181,6 +181,7 @@ function Lesson() {
       <LessonSidebar
         curriculum={curriculum}
         currentLessonId={Number(lessonId)}
+      courseSlug={slug}
       />
 
       <main className="lesson-main">
