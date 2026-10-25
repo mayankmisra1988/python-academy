@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import api from "../../services/api";
 
 import {
   getLesson,
@@ -42,18 +43,11 @@ function Lesson() {
         setLesson(lessonData);
 
         if (lessonData?.course_id) {
-          const response = await fetch(
-            `http://127.0.0.1:8000/api/lessons/courses/${lessonData.course_id}/curriculum/`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("access")}`,
-              },
-            }
+          const response = await api.get(
+            `/lessons/courses/${lessonData.course_id}/curriculum/`
           );
 
-          if (!response.ok) throw new Error(`Curriculum error: ${response.status}`);
-
-          const data = await response.json();
+          const data = response.data;
           if (mounted) setCurriculum(Array.isArray(data) ? data : []);
         }
 
