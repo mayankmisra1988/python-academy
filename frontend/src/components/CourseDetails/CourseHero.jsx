@@ -86,14 +86,16 @@ export default function CourseHero({ course }) {
           </div>
         </div>
 
-        <div className="course-actions">
-          {course.enrolled ? (
-            <Link to={`/courses/${course.slug}/lesson/1`}>
-              <button className="continue-btn">
-                Continue Learning →
-              </button>
-            </Link>
-          ) : (
+<div className="course-actions">
+  {course.enrolled ? (
+    course.progress < 100 ? (
+      <Link to={`/courses/${course.slug}/lesson/1`}>
+        <button className="continue-btn">
+          Continue Learning →
+        </button>
+      </Link>
+    ) : null
+  ) : (
             <button
               className="enroll-btn"
               onClick={handleEnroll}
