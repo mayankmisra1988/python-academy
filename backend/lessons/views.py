@@ -1,12 +1,14 @@
-from rest_framework import generics
-from certificates.utils import generate_certificate_pdf
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.utils import timezone
-from enrollments.models import Enrollment
-from rest_framework.response import Response
-from rest_framework import status
 from django.db import transaction
+from django.utils import timezone
+
+from rest_framework import generics, status
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+
 from certificates.models import Certificate
+from certificates.utils import generate_certificate_pdf
+from enrollments.models import Enrollment
 
 from .models import (
     Section,
@@ -141,6 +143,27 @@ def update_course_completion(user, course):
     )
 
 
+def require_course_access(user, course):
+    """
+    Free courses are accessible.
+    Paid courses require an active enrollment.
+    """
+    if course.is_free:
+        return
+
+    has_active_enrollment = Enrollment.objects.filter(
+        user=user,
+        course=course,
+        is_active=True,
+    ).exists()
+
+    if not has_active_enrollment:
+        raise PermissionDenied(
+            "Active enrollment is required to access this paid course."
+        )
+
+
+
 class LessonProgressView(generics.ListCreateAPIView):
 
     serializer_class = LessonProgressSerializer
@@ -162,6 +185,15 @@ class LessonProgressView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
 
         lesson = serializer.validated_data["lesson"]
+        if not lesson.is_published:
+            raise PermissionDenied(
+                "This lesson is not available."
+            )
+
+        require_course_access(
+            self.request.user,
+            lesson.section.course,
+        )
 
         progress, created = (
             LessonProgress.objects.update_or_create(
@@ -203,13 +235,32 @@ class LessonProgressDetailView(
         )
 
     def perform_update(self, serializer):
-
+        existing_lesson = serializer.instance.lesson
+        new_lesson = serializer.validated_data.get("lesson", existing_lesson)
+        for lesson in {existing_lesson, new_lesson}:
+            if not lesson.is_published:
+                raise PermissionDenied(
+                    "This lesson is not available."
+                )
+            require_course_access(
+                self.request.user,
+                lesson.section.course,
+            )
         progress = serializer.save()
+
+        old_course = existing_lesson.section.course
+        new_course = progress.lesson.section.course
 
         update_course_completion(
             self.request.user,
-            progress.lesson.section.course,
+            old_course,
         )
+
+        if new_course.pk != old_course.pk:
+            update_course_completion(
+                self.request.user,
+                new_course,
+            )
 
 
 class QuizDetailView(generics.GenericAPIView):
@@ -242,6 +293,15 @@ class QuizDetailView(generics.GenericAPIView):
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
+        if not quiz.lesson.is_published:
+            raise PermissionDenied(
+                "This lesson is not available."
+            )
+
+        require_course_access(
+            request.user,
+            quiz.lesson.section.course,
+        )
 
         serializer = self.get_serializer(quiz)
 
@@ -298,6 +358,15 @@ class QuizSubmitView(generics.GenericAPIView):
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
+        if not quiz.lesson.is_published:
+            raise PermissionDenied(
+                "This lesson is not available."
+            )
+
+        require_course_access(
+            request.user,
+            quiz.lesson.section.course,
+        )
 
         # ==================================================
         # CREATE QUIZ ATTEMPT

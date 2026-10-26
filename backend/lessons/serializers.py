@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
+from enrollments.models import Enrollment
 
 from .models import (
     Section,
@@ -189,15 +190,62 @@ class SectionSerializer(serializers.ModelSerializer):
         )
 
     def get_lessons(self, obj):
+        request = self.context.get("request")
+        course = obj.course
+
+        has_active_enrollment = False
+
+        if request and request.user.is_authenticated:
+            if not course.is_free:
+                has_active_enrollment = Enrollment.objects.filter(
+                    user=request.user,
+                    course=course,
+                    is_active=True,
+                ).exists()
+
         published_lessons = obj.lessons.filter(
             is_published=True
         ).order_by("order")
 
-        return LessonSerializer(
-            published_lessons,
-            many=True,
-            context=self.context,
-        ).data
+        results = []
+
+        for lesson in published_lessons:
+            can_access_content = (
+                course.is_free
+                or lesson.is_preview
+                or has_active_enrollment
+            )
+
+            if can_access_content:
+                results.append(
+                    LessonSerializer(
+                        lesson,
+                        context=self.context,
+                    ).data
+                )
+            else:
+                # Locked lessons: return curriculum metadata only.
+                results.append({
+                    "id": lesson.id,
+                    "title": lesson.title,
+                    "description": lesson.description,
+                    "duration": lesson.duration,
+                    "is_preview": lesson.is_preview,
+                    "is_published": lesson.is_published,
+                    "order": lesson.order,
+                    "course_id": course.id,
+                    "section_id": obj.id,
+                    "section_title": obj.title,
+                    "course_slug": course.slug,
+                    "video_url": None,
+                    "notes": None,
+                    "notes_url": None,
+                    "quiz": None,
+                    "has_quiz": False,
+                    "completed": False,
+                })
+
+        return results
 
 
 
