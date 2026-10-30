@@ -1,20 +1,19 @@
+import logging
+
 from rest_framework import generics, status
 from .models import Certificate
 from .serializers import CertificateSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from django.shortcuts import get_object_or_404
-
 from courses.models import Course
 from enrollments.models import Enrollment
-
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-
 from .utils import generate_certificate_pdf 
-
 from django.http import FileResponse
+
+logger = logging.getLogger(__name__)
 
 class CertificateListView(generics.ListAPIView):
 
@@ -50,7 +49,6 @@ class GenerateCertificateView(generics.GenericAPIView):
     serializer_class = CertificateSerializer
 
     def post(self, request, course_id):
-
         course = get_object_or_404(
             Course,
             id=course_id,
@@ -65,17 +63,13 @@ class GenerateCertificateView(generics.GenericAPIView):
 
         if not enrollment:
             return Response(
-                {
-                    "error": "You are not enrolled in this course."
-                },
+                {"error": "You are not enrolled in this course."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         if not enrollment.completed:
             return Response(
-                {
-                    "error": "Complete the course first."
-                },
+                {"error": "Complete the course first."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -84,32 +78,37 @@ class GenerateCertificateView(generics.GenericAPIView):
             course=course,
         ).first()
 
-        if certificate:
+        is_new = certificate is None
 
-            if not certificate.pdf:
-                generate_certificate_pdf(certificate)
-
-            serializer = CertificateSerializer(
-                certificate,
-                context={"request": request},
+        if is_new:
+            certificate = Certificate.objects.create(
+                user=request.user,
+                course=course,
             )
 
-            return Response(serializer.data)
-
-        certificate = Certificate.objects.create(
-            user=request.user,
-            course=course,
-        )
-        generate_certificate_pdf(certificate)
+        if not certificate.pdf:
+            try:
+                generate_certificate_pdf(certificate)
+                certificate.refresh_from_db()
+            except Exception:
+                logger.exception(
+                    "Certificate PDF generation failed for certificate_id=%s",
+                    certificate.certificate_id,
+                )
 
         serializer = CertificateSerializer(
             certificate,
             context={"request": request},
         )
+        response_status = (
+            status.HTTP_201_CREATED
+            if is_new
+            else status.HTTP_200_OK
+        )
 
         return Response(
             serializer.data,
-            status=status.HTTP_201_CREATED,
+            status=response_status,
         )
 
 

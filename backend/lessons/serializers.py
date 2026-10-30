@@ -282,25 +282,22 @@ class LessonProgressSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, attrs):
-
         completed = attrs.get(
             "completed",
-            False,
+            getattr(self.instance, "completed", False),
         )
 
         watched = attrs.get(
             "watched_percentage",
-            0,
+            getattr(self.instance, "watched_percentage", 0),
         )
 
         if completed and watched < 100:
-
-            raise serializers.ValidationError(
-                {
-                    "watched_percentage":
+            raise serializers.ValidationError({
+                "watched_percentage": (
                     "Completed lesson must have 100% watched."
-                }
-            )
+                )
+            })
 
         return attrs
 
@@ -317,10 +314,17 @@ class StudentAnswerInputSerializer(serializers.Serializer):
 
 
 class QuizSubmitSerializer(serializers.Serializer):
+    answers = StudentAnswerInputSerializer(many=True)
 
-    answers = StudentAnswerInputSerializer(
-        many=True
-    )
+    def validate_answers(self, answers):
+        question_ids = [item["question"] for item in answers]
+
+        if len(question_ids) != len(set(question_ids)):
+            raise serializers.ValidationError(
+                "Each question can only be answered once."
+            )
+
+        return answers
 
 
 # ==========================================================

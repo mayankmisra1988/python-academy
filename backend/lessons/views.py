@@ -1,8 +1,10 @@
+
+import logging
 from django.db import transaction
 from django.utils import timezone
 
 from rest_framework import generics, status
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -29,6 +31,7 @@ from .serializers import (
     QuizSubmitSerializer,
     QuizAttemptSerializer,
 )
+logger = logging.getLogger(__name__)
 
 
 class CourseCurriculumView(generics.ListAPIView):
@@ -100,48 +103,75 @@ class LessonDetailView(generics.RetrieveAPIView):
 
 
 
+def lesson_quiz_passed(user, lesson):
+    try:
+        quiz = lesson.quiz
+    except Quiz.DoesNotExist:
+        return True
+
+    # Inactive quiz is not a completion requirement.
+    if not quiz.is_active:
+        return True
+
+    return QuizAttempt.objects.filter(
+        student=user,
+        quiz=quiz,
+        passed=True,
+    ).exists()
+
+
 def update_course_completion(user, course):
-    """
-    Update enrollment completion based on lesson progress.
-    """
-
-    total_lessons = Lesson.objects.filter(
-        section__course=course,
-        is_published=True,
-    ).count()
-
-    completed_lessons = LessonProgress.objects.filter(
-        user=user,
-        completed=True,
-        lesson__section__course=course,
-    ).count()
+    lessons = list(
+        Lesson.objects.filter(
+            section__course=course,
+            is_published=True,
+        ).select_related("quiz")
+    )
 
     enrollment = Enrollment.objects.filter(
         user=user,
         course=course,
+        is_active=True,
     ).first()
 
     if enrollment is None:
         return
 
-    if (
-        total_lessons > 0
-        and completed_lessons == total_lessons
-    ):
-        enrollment.completed = True
-        enrollment.completed_at = timezone.now()
+    completed_lesson_ids = set(
+        LessonProgress.objects.filter(
+            user=user,
+            completed=True,
+            lesson__in=lessons,
+        ).values_list("lesson_id", flat=True)
+    )
 
-    else:
-        enrollment.completed = False
+    all_lessons_completed = (
+        bool(lessons)
+        and len(completed_lesson_ids) == len(lessons)
+    )
+
+    all_quizzes_passed = all(
+        lesson_quiz_passed(user, lesson)
+        for lesson in lessons
+    )
+
+    course_completed = (
+        all_lessons_completed
+        and all_quizzes_passed
+    )
+
+    was_completed = enrollment.completed
+
+    enrollment.completed = course_completed
+
+    if course_completed and not was_completed:
+        enrollment.completed_at = timezone.now()
+    elif not course_completed:
         enrollment.completed_at = None
 
     enrollment.save(
-        update_fields=[
-            "completed",
-            "completed_at",
-        ]
+        update_fields=["completed", "completed_at"]
     )
-
 
 def require_course_access(user, course):
     """
@@ -194,6 +224,13 @@ class LessonProgressView(generics.ListCreateAPIView):
             self.request.user,
             lesson.section.course,
         )
+        if serializer.validated_data.get("completed", False):
+            lesson = serializer.validated_data["lesson"]
+
+            if not lesson_quiz_passed(self.request.user, lesson):
+                raise ValidationError(
+                    "You must pass this lesson's quiz before completing it."
+                )
 
         progress, created = (
             LessonProgress.objects.update_or_create(
@@ -221,9 +258,7 @@ class LessonProgressView(generics.ListCreateAPIView):
         )
 
 
-class LessonProgressDetailView(
-    generics.RetrieveUpdateAPIView
-):
+class LessonProgressDetailView(generics.RetrieveUpdateAPIView):
 
     serializer_class = LessonProgressSerializer
     permission_classes = [IsAuthenticated]
@@ -236,16 +271,36 @@ class LessonProgressDetailView(
 
     def perform_update(self, serializer):
         existing_lesson = serializer.instance.lesson
-        new_lesson = serializer.validated_data.get("lesson", existing_lesson)
+        new_lesson = serializer.validated_data.get(
+            "lesson",
+            existing_lesson,
+        )
+
+        # Existing aur target lesson dono ka access verify karo.
         for lesson in {existing_lesson, new_lesson}:
             if not lesson.is_published:
                 raise PermissionDenied(
                     "This lesson is not available."
                 )
+
             require_course_access(
                 self.request.user,
                 lesson.section.course,
             )
+
+        completed = serializer.validated_data.get(
+            "completed",
+            serializer.instance.completed,
+        )
+
+        if completed and not lesson_quiz_passed(
+            self.request.user,
+            new_lesson,
+        ):
+            raise ValidationError(
+                "You must pass this lesson's quiz before completing it."
+            )
+
         progress = serializer.save()
 
         old_course = existing_lesson.section.course
@@ -367,45 +422,55 @@ class QuizSubmitView(generics.GenericAPIView):
             request.user,
             quiz.lesson.section.course,
         )
+        questions = {
+            question.id: question
+            for question in quiz.questions.all()
+        }
 
-        # ==================================================
+        if not questions:
+            raise ValidationError({
+                "quiz": "This quiz has no questions and cannot be submitted."
+            })
+
+        validated_answers = []
+
+        for item in serializer.validated_data["answers"]:
+            question = questions.get(item["question"])
+
+            if question is None:
+                raise ValidationError({
+                    "answers": (
+                        "A submitted question does not belong to this quiz."
+                    )
+                })
+            option = next(
+                (
+                    option
+                    for option in question.options.all()
+                    if option.id == item["option"]
+                ),
+                None,
+            )
+            if option is None:
+                raise ValidationError({
+                    "answers": (
+                        "A selected option does not belong to its question."
+                    )
+                })
+
+            validated_answers.append((question, option))
+
         # CREATE QUIZ ATTEMPT
-        # ==================================================
-
         attempt = QuizAttempt.objects.create(
             student=request.user,
             quiz=quiz,
         )
 
-        total_questions = quiz.questions.count()
+        total_questions = len(questions)
         correct_answers = 0
 
-        # ==================================================
         # CHECK ANSWERS
-        # ==================================================
-
-        for item in serializer.validated_data["answers"]:
-
-            try:
-
-                question = quiz.questions.get(
-                    id=item["question"]
-                )
-
-            except Question.DoesNotExist:
-
-                continue
-
-            try:
-
-                option = question.options.get(
-                    id=item["option"]
-                )
-
-            except Option.DoesNotExist:
-
-                continue
-
+        for question, option in validated_answers:
             is_correct = option.is_correct
 
             if is_correct:
@@ -521,15 +586,14 @@ class QuizSubmitView(generics.GenericAPIView):
                 # GENERATE PDF
                 # ==================================================
 
-                if (
-                    created
-                    or not certificate.pdf
-                ):
-
-                    generate_certificate_pdf(
-                        certificate
-                    )
-
+                if created or not certificate.pdf:
+                    try:
+                        generate_certificate_pdf(certificate)
+                    except Exception:
+                        logger.exception(
+                            "Certificate PDF generation failed for certificate_id=%s",
+                            certificate.certificate_id,
+                        )
         # ==================================================
         # SERIALIZE RESULT
         # ==================================================
